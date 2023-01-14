@@ -3,7 +3,7 @@ import Card from './Card';
 
 const Game = (props) => {
 
-    let gridContainer = {
+    const gridContainer = {
         display: 'grid',
         gridTemplateColumns: 'repeat(6, auto)',
         width: 'fit-content',
@@ -12,12 +12,24 @@ const Game = (props) => {
         marginInline: 'auto'
     }
 
+    const cardComponents = props.info.map((card) => {
+        return <Card key = {card.name} image={card.image} name={card.name} handleClick={props.handleClick} clicked={card.clicked}/>
+    })
+
+    const shuffleArray = array => {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+        return array
+    }
+
     return (
         <div style={gridContainer}>
             {
-            props.info.map((card) => {
-                return <Card key = {card.name} image={card.image} name={card.name} handleClick={props.handleClick} clicked={card.clicked}/>
-            })
+                shuffleArray(cardComponents)
             }
         </div>
     )
